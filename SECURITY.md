@@ -1,0 +1,20 @@
+# Security Policy
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability, please report it responsibly.
+
+**Email:** [forgekithq@proton.me](mailto:forgekithq@proton.me)
+
+Please include:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+
+## Response
+
+- We will acknowledge your report within **48 hours**
+- We will provide a fix or mitigation plan within **7 days** for critical issues
+- We will credit you in the release notes (unless you prefer to remain anonymous)
+
+**Please do not open a public issue for security vulnerabilities.**
