@@ -58,21 +58,25 @@ jobs:
 # .github/workflows/deploy.yml in your repo
 name: Deploy
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types: [completed]
+  push:
     branches: [main]
 
 jobs:
+  ci:
+    uses: forgekithq/.github/.github/workflows/ci.yml@main
+    with:
+      astro-check: true  # adjust per project
+
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: ci
     uses: forgekithq/.github/.github/workflows/deploy-cf-pages.yml@main
     with:
       project-name: brand-site  # required
-    secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    secrets: inherit
 ```
+
+> **Note**: Use `secrets: inherit` instead of explicit secrets. The reusable workflow
+> must NOT declare a `permissions` block (it causes `startup_failure`).
 
 | Input | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -89,9 +93,7 @@ jobs:
     uses: forgekithq/.github/.github/workflows/deploy-cf-workers.yml@main
     with:
       wrangler-command: deploy  # default
-    secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    secrets: inherit
 ```
 
 ### `release-npm.yml` — npm Publish + GitHub Release
@@ -103,6 +105,5 @@ jobs:
     uses: forgekithq/.github/.github/workflows/release-npm.yml@main
     with:
       build-command: npm run build
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    secrets: inherit
 ```
