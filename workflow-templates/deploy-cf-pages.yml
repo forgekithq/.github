@@ -1,14 +1,19 @@
 name: Deploy
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types: [completed]
+  push:
     branches: [$default-branch]
 
 jobs:
+  ci:
+    uses: forgekithq/.github/.github/workflows/ci.yml@main
+    with:
+      node-version: 22
+      # astro-check: true
+      # test-command: 'npm test'
+
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: ci
     uses: forgekithq/.github/.github/workflows/deploy-cf-pages.yml@main
     with:
       project-name: my-project  # Change to your Cloudflare Pages project name
