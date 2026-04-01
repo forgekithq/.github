@@ -12,9 +12,6 @@ on:
       registry-url:
         type: string
         default: 'https://registry.npmjs.org'
-    secrets:
-      NPM_TOKEN:
-        required: true
 
 jobs:
   release:

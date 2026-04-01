@@ -15,11 +15,6 @@ on:
       project-name:
         type: string
         required: true
-    secrets:
-      CLOUDFLARE_API_TOKEN:
-        required: true
-      CLOUDFLARE_ACCOUNT_ID:
-        required: true
 
 jobs:
   deploy:

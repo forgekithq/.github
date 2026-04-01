@@ -12,11 +12,6 @@ on:
       working-directory:
         type: string
         default: '.'
-    secrets:
-      CLOUDFLARE_API_TOKEN:
-        required: true
-      CLOUDFLARE_ACCOUNT_ID:
-        required: true
 
 jobs:
   deploy:
