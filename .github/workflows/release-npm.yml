@@ -1,0 +1,45 @@
+name: Release to npm (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: number
+        default: 22
+      build-command:
+        type: string
+        default: 'npm run build'
+      registry-url:
+        type: string
+        default: 'https://registry.npmjs.org'
+    secrets:
+      NPM_TOKEN:
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          registry-url: ${{ inputs.registry-url }}
+
+      - run: npm ci
+
+      - run: ${{ inputs.build-command }}
+
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true

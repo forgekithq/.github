@@ -1,0 +1,6 @@
+{
+  "name": "Forgekit CI",
+  "description": "Standard CI pipeline for Forgekit projects (lint, typecheck, test, build)",
+  "iconName": "octicon check-circle",
+  "categories": ["continuous-integration"]
+}

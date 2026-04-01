@@ -1,0 +1,46 @@
+name: Deploy to Cloudflare Pages (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: number
+        default: 22
+      build-command:
+        type: string
+        default: 'npm run build'
+      output-directory:
+        type: string
+        default: 'dist/'
+      project-name:
+        type: string
+        required: true
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+
+      - run: npm ci
+
+      - run: ${{ inputs.build-command }}
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ${{ inputs.output-directory }} --project-name=${{ inputs.project-name }}

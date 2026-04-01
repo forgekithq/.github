@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches: [$default-branch]
+  pull_request:
+
+jobs:
+  ci:
+    uses: forgekithq/.github/.github/workflows/ci.yml@main
+    with:
+      node-version: 22
+      # Uncomment as needed:
+      # lint-command: 'npx biome check .'
+      # astro-check: true
+      # test-command: 'npm test'

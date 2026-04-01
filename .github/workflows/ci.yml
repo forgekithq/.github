@@ -1,0 +1,71 @@
+name: CI (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: number
+        default: 22
+      package-manager:
+        type: string
+        default: 'npm'
+      lint-command:
+        description: 'Lint command (empty = skip)'
+        type: string
+        default: ''
+      typecheck-command:
+        description: 'Typecheck command (empty = skip, ignored if astro-check is true)'
+        type: string
+        default: 'npx tsc --noEmit'
+      test-command:
+        description: 'Test command (empty = skip)'
+        type: string
+        default: 'npm test'
+      build-command:
+        description: 'Build command'
+        type: string
+        default: 'npm run build'
+      astro-check:
+        description: 'Use astro check instead of tsc for typecheck'
+        type: boolean
+        default: false
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install (npm)
+        if: inputs.package-manager == 'npm'
+        run: npm ci
+
+      - name: Install (pnpm)
+        if: inputs.package-manager == 'pnpm'
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Lint
+        if: inputs.lint-command != ''
+        run: ${{ inputs.lint-command }}
+
+      - name: Typecheck (Astro)
+        if: inputs.astro-check
+        run: npx astro check
+
+      - name: Typecheck (tsc)
+        if: inputs.typecheck-command != '' && !inputs.astro-check
+        run: ${{ inputs.typecheck-command }}
+
+      - name: Test
+        if: inputs.test-command != ''
+        run: ${{ inputs.test-command }}
+
+      - name: Build
+        run: ${{ inputs.build-command }}

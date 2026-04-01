@@ -1,0 +1,6 @@
+{
+  "name": "Forgekit Deploy (Cloudflare Pages)",
+  "description": "Deploy to Cloudflare Pages after CI passes",
+  "iconName": "octicon rocket",
+  "categories": ["deployment"]
+}
