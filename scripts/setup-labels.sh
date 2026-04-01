@@ -7,6 +7,11 @@ set -euo pipefail
 
 REPO="${1:?Usage: $0 <owner/repo>}"
 
+if [[ ! "$REPO" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+  echo "Error: REPO must be in 'owner/repo' format. Got: $REPO" >&2
+  exit 1
+fi
+
 echo "Setting up labels for $REPO..."
 
 # Delete GitHub defaults we don't use

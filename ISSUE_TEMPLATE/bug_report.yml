@@ -49,6 +49,6 @@ body:
     id: context
     attributes:
       label: Additional context
-      description: Logs, screenshots, or anything else that might help.
+      description: Logs, screenshots, or anything else that might help. Do not paste API keys, tokens, or secrets here.
     validations:
       required: false
