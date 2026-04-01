@@ -1,5 +1,9 @@
 # Security Policy
 
+## Supported Versions
+
+We support the latest stable release of each product. Older versions do not receive security patches.
+
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability, please report it responsibly.

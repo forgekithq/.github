@@ -25,7 +25,7 @@ gh label create "triage"           --color "fbca04" --description "Needs review"
 gh label create "good first issue" --color "7057ff" --description "Good for newcomers"     --repo "$REPO" --force
 gh label create "help wanted"      --color "008672" --description "Extra attention needed"  --repo "$REPO" --force
 gh label create "duplicate"        --color "cfd3d7" --description "Already exists"          --repo "$REPO" --force
-gh label create "wontfix"          --color "ffffff" --description "Not planned"             --repo "$REPO" --force
+gh label create "wontfix"          --color "d0d7de" --description "Not planned"             --repo "$REPO" --force
 
 # Priority
 gh label create "priority: critical" --color "b60205" --description "Must fix immediately"  --repo "$REPO" --force
